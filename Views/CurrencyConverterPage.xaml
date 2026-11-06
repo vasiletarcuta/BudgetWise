@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Currency converter"
-    BackgroundColor="#101713"
+    BackgroundColor="{StaticResource AppBackground}"
     Shell.NavBarIsVisible="False"
     Shell.TabBarIsVisible="False">
 
@@ -12,60 +12,60 @@
         <VerticalStackLayout Padding="20,26,20,30" Spacing="20"
                              MaximumWidthRequest="540" HorizontalOptions="Fill">
             <Grid ColumnDefinitions="46,*" ColumnSpacing="14">
-                <Border BackgroundColor="#C9F27A" Stroke="#050806" StrokeThickness="3"
+                <Border BackgroundColor="{StaticResource AppPrimary}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                         StrokeShape="Rectangle" WidthRequest="46" HeightRequest="46">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnBackClicked" />
                     </Border.GestureRecognizers>
                     <Path Data="M19,12 L5,12 M5,12 L12,5 M5,12 L12,19"
-                          Stroke="#101713" StrokeThickness="2.5"
+                          Stroke="{StaticResource AppOnPrimaryBrush}" StrokeThickness="2.5"
                           StrokeLineCap="Round" StrokeLineJoin="Round"
                           WidthRequest="20" HeightRequest="20"
                           HorizontalOptions="Center" VerticalOptions="Center" />
                 </Border>
                 <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
                     <Label Text="CURRENCY CONVERTER" FontSize="11" FontAttributes="Bold"
-                           CharacterSpacing="1.5" TextColor="#C9F27A" />
+                           CharacterSpacing="1.5" TextColor="{StaticResource AppPrimaryText}" />
                     <Label Text="RON · EUR · USD" FontSize="22" FontAttributes="Bold"
-                           TextColor="#F2F4EC" />
+                           TextColor="{StaticResource AppText}" />
                 </VerticalStackLayout>
             </Grid>
 
-            <Border BackgroundColor="#18251F" Stroke="#050806" StrokeThickness="3"
+            <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                     StrokeShape="Rectangle" Padding="18">
                 <VerticalStackLayout Spacing="16">
                     <Label Text="AMOUNT" FontSize="11" FontAttributes="Bold"
-                           CharacterSpacing="1" TextColor="#A7B4AA" />
+                           CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
                     <Entry x:Name="AmountEntry" Text="100" Placeholder="0.00"
                            Keyboard="Numeric" FontSize="30" FontAttributes="Bold"
-                           TextColor="#F2F4EC" PlaceholderColor="#718078"
+                           TextColor="{StaticResource AppText}" PlaceholderColor="{StaticResource AppSubtle}"
                            BackgroundColor="Transparent" TextChanged="OnAmountChanged" />
-                    <BoxView HeightRequest="2" BackgroundColor="#050806" />
+                    <BoxView HeightRequest="2" BackgroundColor="{StaticResource AppBorder}" />
                     <Grid ColumnDefinitions="*,44,*" ColumnSpacing="8">
                         <VerticalStackLayout Spacing="7">
                             <Label Text="FROM" FontSize="10" FontAttributes="Bold"
-                                   CharacterSpacing="1" TextColor="#A7B4AA" />
-                            <Border BackgroundColor="#20352C" Stroke="#050806" StrokeThickness="2"
+                                   CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
+                            <Border BackgroundColor="{StaticResource AppCard}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="2"
                                     StrokeShape="Rectangle" Padding="8,0">
-                                <Picker x:Name="FromPicker" FontSize="16" TextColor="#F2F4EC"
+                                <Picker x:Name="FromPicker" FontSize="16" TextColor="{StaticResource AppText}"
                                         Title="Currency" SelectedIndexChanged="OnCurrencyChanged" />
                             </Border>
                         </VerticalStackLayout>
-                        <Border x:Name="SwapButton" Grid.Column="1" BackgroundColor="#C9F27A"
-                                Stroke="#050806" StrokeThickness="2" StrokeShape="Rectangle"
+                        <Border x:Name="SwapButton" Grid.Column="1" BackgroundColor="{StaticResource AppPrimary}"
+                                Stroke="{StaticResource AppBorderBrush}" StrokeThickness="2" StrokeShape="Rectangle"
                                 WidthRequest="42" HeightRequest="44" VerticalOptions="End">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnSwapClicked" />
                             </Border.GestureRecognizers>
                             <Grid>
                                 <Path Data="M5,8 L19,8 M15,4 L19,8 L15,12"
-                                      Stroke="#101713" StrokeThickness="2"
+                                      Stroke="{StaticResource AppOnPrimaryBrush}" StrokeThickness="2"
                                       StrokeLineCap="Round" StrokeLineJoin="Round"
                                       WidthRequest="18" HeightRequest="18"
                                       HorizontalOptions="Center" VerticalOptions="Center"
                                       TranslationY="-4" />
                                 <Path Data="M19,16 L5,16 M9,12 L5,16 L9,20"
-                                      Stroke="#101713" StrokeThickness="2"
+                                      Stroke="{StaticResource AppOnPrimaryBrush}" StrokeThickness="2"
                                       StrokeLineCap="Round" StrokeLineJoin="Round"
                                       WidthRequest="18" HeightRequest="18"
                                       HorizontalOptions="Center" VerticalOptions="Center"
@@ -74,10 +74,10 @@
                         </Border>
                         <VerticalStackLayout Grid.Column="2" Spacing="7">
                             <Label Text="TO" FontSize="10" FontAttributes="Bold"
-                                   CharacterSpacing="1" TextColor="#A7B4AA" />
-                            <Border BackgroundColor="#20352C" Stroke="#050806" StrokeThickness="2"
+                                   CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
+                            <Border BackgroundColor="{StaticResource AppCard}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="2"
                                     StrokeShape="Rectangle" Padding="8,0">
-                                <Picker x:Name="ToPicker" FontSize="16" TextColor="#F2F4EC"
+                                <Picker x:Name="ToPicker" FontSize="16" TextColor="{StaticResource AppText}"
                                         Title="Currency" SelectedIndexChanged="OnCurrencyChanged" />
                             </Border>
                         </VerticalStackLayout>
@@ -85,45 +85,45 @@
                 </VerticalStackLayout>
             </Border>
 
-            <Border BackgroundColor="#20352C" Stroke="#050806" StrokeThickness="3"
+            <Border BackgroundColor="{StaticResource AppCard}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                     StrokeShape="Rectangle" Padding="18">
                 <VerticalStackLayout Spacing="11">
                     <Label Text="CONVERTED AMOUNT" FontSize="11" FontAttributes="Bold"
-                           CharacterSpacing="1" TextColor="#A7B4AA" />
+                           CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
                     <Label x:Name="ResultLabel" Text="—" FontSize="30" FontAttributes="Bold"
-                           TextColor="#C9F27A" LineBreakMode="WordWrap" />
-                    <BoxView HeightRequest="2" BackgroundColor="#050806" />
+                           TextColor="{StaticResource AppPrimaryText}" LineBreakMode="WordWrap" />
+                    <BoxView HeightRequest="2" BackgroundColor="{StaticResource AppBorder}" />
                     <Label x:Name="RateLabel" Text="Press Convert to calculate"
-                           FontSize="13" FontAttributes="Bold" TextColor="#7CF7E8" />
+                           FontSize="13" FontAttributes="Bold" TextColor="{StaticResource AppIncomeText}" />
                     <Label x:Name="RateDateLabel" Text="Exchange rate not loaded"
-                           FontSize="12" TextColor="#A7B4AA" />
+                           FontSize="12" TextColor="{StaticResource AppMuted}" />
                     <Label x:Name="StatusLabel" Text="Frankfurter publishes daily reference rates."
-                           FontSize="12" TextColor="#A7B4AA" LineBreakMode="WordWrap" />
+                           FontSize="12" TextColor="{StaticResource AppMuted}" LineBreakMode="WordWrap" />
                 </VerticalStackLayout>
             </Border>
 
-            <Border BackgroundColor="#18251F" Stroke="#050806" StrokeThickness="2"
+            <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="2"
                     StrokeShape="Rectangle" Padding="14">
                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                     <VerticalStackLayout Spacing="4">
                         <Label Text="OFFLINE FALLBACK" FontSize="12" FontAttributes="Bold"
-                               TextColor="#F2F4EC" />
+                               TextColor="{StaticResource AppText}" />
                         <Label Text="Use the last saved rate when offline."
-                               FontSize="11" TextColor="#A7B4AA" />
+                               FontSize="11" TextColor="{StaticResource AppMuted}" />
                     </VerticalStackLayout>
                     <Switch x:Name="OfflineCacheSwitch" Grid.Column="1" IsToggled="True"
-                            OnColor="#C9F27A" ThumbColor="#F2F4EC" VerticalOptions="Center" />
+                            OnColor="{StaticResource AppPrimary}" ThumbColor="{StaticResource AppText}" VerticalOptions="Center" />
                 </Grid>
             </Border>
 
             <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False"
-                               Color="#C9F27A" HeightRequest="30" />
+                               Color="{StaticResource AppPrimary}" HeightRequest="30" />
             <Button x:Name="ConvertButton" Text="CONVERT CURRENCY" FontSize="14"
-                    FontAttributes="Bold" BackgroundColor="#C9F27A" TextColor="#101713"
-                    BorderColor="#050806" BorderWidth="3" CornerRadius="0"
+                    FontAttributes="Bold" BackgroundColor="{StaticResource AppPrimary}" TextColor="{StaticResource AppOnPrimary}"
+                    BorderColor="{StaticResource AppBorder}" BorderWidth="3" CornerRadius="0"
                     HeightRequest="54" Clicked="OnConvertClicked" />
             <Label Text="Indicative daily rates may differ from your bank or card rate."
-                   FontSize="11" TextColor="#A7B4AA" HorizontalTextAlignment="Center"
+                   FontSize="11" TextColor="{StaticResource AppMuted}" HorizontalTextAlignment="Center"
                    LineBreakMode="WordWrap" />
         </VerticalStackLayout>
     </ScrollView>

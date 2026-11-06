@@ -90,7 +90,7 @@ public partial class BudgetFormPage : ContentPage, IQueryAttributable
         }
     }
 
-    private async void OnSaveBudgetClicked(object sender, EventArgs e)
+    private async void OnSaveBudgetClicked(object? sender, EventArgs e)
     {
         if (_saving)
             return;
@@ -158,7 +158,7 @@ public partial class BudgetFormPage : ContentPage, IQueryAttributable
         }
     }
 
-    private async void OnCancelClicked(object sender, TappedEventArgs e)
+    private async void OnCancelClicked(object? sender, TappedEventArgs e)
     {
         await Shell.Current.GoToAsync("..");
     }

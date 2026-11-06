@@ -5,10 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Grid Padding="14,4,14,10">
-        <Border BackgroundColor="#18251F" Stroke="#050806" StrokeThickness="3"
+        <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                 StrokeShape="Rectangle" Padding="6" HeightRequest="66">
             <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="4">
-                <Border x:Name="HomeTab" Grid.Column="0" Stroke="#18251F" StrokeThickness="0"
+                <Border x:Name="HomeTab" Grid.Column="0" Stroke="{StaticResource AppCardAltBrush}" StrokeThickness="0"
                         StrokeShape="Rectangle" BackgroundColor="Transparent">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnHomeTapped" />
@@ -16,26 +16,26 @@
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="3">
                         <Path x:Name="HomeIcon"
                               Data="M3,10 L12,3 L21,10 M5,9 L5,20 L10,20 L10,14 L14,14 L14,20 L19,20 L19,9"
-                              Stroke="#929B91" StrokeThickness="2" StrokeLineCap="Round"
+                              Stroke="{StaticResource AppSubtleBrush}" StrokeThickness="2" StrokeLineCap="Round"
                               StrokeLineJoin="Round" WidthRequest="21" HeightRequest="21" />
                         <Label x:Name="HomeText" Text="Home" FontSize="10"
                                HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </Border>
-                <Border x:Name="ActivityTab" Grid.Column="1" Stroke="#18251F" StrokeThickness="0"
+                <Border x:Name="ActivityTab" Grid.Column="1" Stroke="{StaticResource AppCardAltBrush}" StrokeThickness="0"
                         StrokeShape="Rectangle" BackgroundColor="Transparent">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnActivityTapped" />
                     </Border.GestureRecognizers>
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="3">
                         <Path x:Name="ActivityIcon" Data="M5,6 L19,6 M5,12 L19,12 M5,18 L15,18"
-                              Stroke="#929B91" StrokeThickness="2" StrokeLineCap="Round"
+                              Stroke="{StaticResource AppSubtleBrush}" StrokeThickness="2" StrokeLineCap="Round"
                               WidthRequest="21" HeightRequest="21" />
                         <Label x:Name="ActivityText" Text="Activity" FontSize="10"
                                HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </Border>
-                <Border x:Name="BudgetsTab" Grid.Column="2" Stroke="#18251F" StrokeThickness="0"
+                <Border x:Name="BudgetsTab" Grid.Column="2" Stroke="{StaticResource AppCardAltBrush}" StrokeThickness="0"
                         StrokeShape="Rectangle" BackgroundColor="Transparent">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnBudgetsTapped" />
@@ -43,13 +43,13 @@
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="3">
                         <Path x:Name="BudgetsIcon"
                               Data="M3,7 L20,7 L20,20 L3,20 Z M3,7 L3,4 L17,4 L17,7 M15,12 L20,12 L20,17 L15,17 Z"
-                              Stroke="#929B91" StrokeThickness="2" StrokeLineCap="Round"
+                              Stroke="{StaticResource AppSubtleBrush}" StrokeThickness="2" StrokeLineCap="Round"
                               StrokeLineJoin="Round" WidthRequest="21" HeightRequest="21" />
                         <Label x:Name="BudgetsText" Text="Budgets" FontSize="10"
                                HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </Border>
-                <Border x:Name="StatsTab" Grid.Column="3" Stroke="#18251F" StrokeThickness="0"
+                <Border x:Name="StatsTab" Grid.Column="3" Stroke="{StaticResource AppCardAltBrush}" StrokeThickness="0"
                         StrokeShape="Rectangle" BackgroundColor="Transparent">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnStatsTapped" />
@@ -57,7 +57,7 @@
                     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="3">
                         <Path x:Name="StatsIcon"
                               Data="M4,20 L4,13 L8,13 L8,20 M10,20 L10,8 L14,8 L14,20 M16,20 L16,4 L20,4 L20,20"
-                              Stroke="#929B91" StrokeThickness="2" StrokeLineCap="Round"
+                              Stroke="{StaticResource AppSubtleBrush}" StrokeThickness="2" StrokeLineCap="Round"
                               WidthRequest="21" HeightRequest="21" />
                         <Label x:Name="StatsText" Text="Stats" FontSize="10"
                                HorizontalTextAlignment="Center" />

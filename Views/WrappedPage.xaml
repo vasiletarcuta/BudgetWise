@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="BudgetWise.Views.WrappedPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Wrapped"
+    BackgroundColor="{StaticResource AppWrappedIntroBg}"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False">
+
+    <Grid x:Name="Root" RowDefinitions="Auto,Auto,*" BackgroundColor="{StaticResource AppWrappedIntroBg}">
+        <Grid x:Name="Segments" Grid.Row="0" ColumnSpacing="6" Margin="20,24,20,0" />
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="12" Margin="20,14,20,0">
+            <Border BackgroundColor="{StaticResource AppWrappedChip}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="2"
+                    StrokeShape="Rectangle" Padding="8,0" HorizontalOptions="Start" MinimumWidthRequest="190">
+                <Picker x:Name="MonthPicker" FontSize="14" TextColor="{StaticResource AppWrappedText}" TitleColor="{StaticResource AppWrappedMuted}"
+                        Title="Choose a month" SelectedIndexChanged="OnMonthChanged" />
+            </Border>
+            <Label Grid.Column="1" Text="CLOSE" FontSize="12" FontAttributes="Bold" CharacterSpacing="1"
+                   TextColor="{StaticResource AppWrappedText}" VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCloseTapped" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <VerticalStackLayout x:Name="Body" VerticalOptions="Center" HorizontalOptions="Center"
+                                 Padding="28,10" Spacing="18" WidthRequest="360" MaximumWidthRequest="520">
+                <Label x:Name="KickerLabel" FontSize="12" FontAttributes="Bold" CharacterSpacing="2"
+                       HorizontalTextAlignment="Center" />
+                <Border x:Name="IconBadge" StrokeShape="Rectangle" StrokeThickness="3" Stroke="{StaticResource AppBorderBrush}"
+                        Padding="24" WidthRequest="120" HeightRequest="120" HorizontalOptions="Center">
+                    <Image x:Name="IconImage" Aspect="AspectFit" />
+                </Border>
+                <Label x:Name="BigLabel" FontSize="46" FontAttributes="Bold" MaxLines="2"
+                       HorizontalTextAlignment="Center" />
+                <ProgressBar x:Name="CardProgress" BackgroundColor="{StaticResource AppWrappedTrack}" HeightRequest="10" />
+                <Label x:Name="CaptionLabel" FontSize="16" TextColor="{StaticResource AppWrappedText}"
+                       HorizontalTextAlignment="Center" />
+                <Label x:Name="DetailLabel" FontSize="13" TextColor="{StaticResource AppWrappedMuted}"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,2*">
+                <BoxView Grid.Column="0" BackgroundColor="#01000000">
+                    <BoxView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPreviousTapped" />
+                    </BoxView.GestureRecognizers>
+                </BoxView>
+                <BoxView Grid.Column="1" BackgroundColor="#01000000">
+                    <BoxView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnNextTapped" />
+                    </BoxView.GestureRecognizers>
+                </BoxView>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -37,6 +37,7 @@ public partial class TransactionsPage : ContentPage
             var transactions = await _database.GetTransactionsAsync();
             var categories = await _database.GetCategoriesAsync();
             var categoryLookup = categories.ToDictionary(category => category.Id, category => category.Name);
+            var iconLookup = categories.ToDictionary(category => category.Id, category => category.Icon);
             var culture = CultureInfo.GetCultureInfo("ro-RO");
 
             _allItems.Clear();
@@ -56,8 +57,9 @@ public partial class TransactionsPage : ContentPage
                     Subtitle = $"{categoryName} · {transaction.Date.ToString("dd MMM yyyy", culture)}",
                     Type = transaction.Type,
                     AmountText = $"{(isIncome ? "+" : "-")}{amount.ToString("N2", culture)} {transaction.Currency}",
-                    AmountColor = Color.FromArgb(isIncome ? "#7CF7E8" : "#F08B8F"),
-                    TypeColor = Color.FromArgb(isIncome ? "#7CF7E8" : "#D56E75")
+                    AmountColor = isIncome ? Palette.IncomeText : Palette.ExpenseText,
+                    TypeColor = isIncome ? Palette.Income : Palette.Expense,
+                    IconSource = CategoryIcons.For(iconLookup.GetValueOrDefault(transaction.CategoryId))
                 });
             }
 
@@ -69,12 +71,12 @@ public partial class TransactionsPage : ContentPage
         }
     }
 
-    private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
+    private void OnSearchTextChanged(object? sender, TextChangedEventArgs e)
     {
         ApplyFilters();
     }
 
-    private void OnFilterChanged(object sender, EventArgs e)
+    private void OnFilterChanged(object? sender, EventArgs e)
     {
         ApplyFilters();
     }
@@ -97,13 +99,13 @@ public partial class TransactionsPage : ContentPage
             CountLabel.Text = $"{Transactions.Count} transactions";
     }
 
-    private async void OnAddTransactionClicked(object sender, EventArgs e)
+    private async void OnAddTransactionClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(
             $"{nameof(TransactionFormPage)}?type=Expense");
     }
 
-    private async void OnEditClicked(object sender, EventArgs e)
+    private async void OnEditClicked(object? sender, EventArgs e)
     {
         if (sender is not Button button || !TryGetTransactionId(button, out int id))
             return;
@@ -112,7 +114,7 @@ public partial class TransactionsPage : ContentPage
             $"{nameof(TransactionFormPage)}?id={id}");
     }
 
-    private async void OnDeleteClicked(object sender, EventArgs e)
+    private async void OnDeleteClicked(object? sender, EventArgs e)
     {
         if (sender is not Button button || !TryGetTransactionId(button, out int id))
             return;
@@ -160,6 +162,7 @@ public class TransactionListItem
     public string Subtitle { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public string AmountText { get; set; } = string.Empty;
-    public Color AmountColor { get; set; } = Color.FromArgb("#F2F4EC");
-    public Color TypeColor { get; set; } = Color.FromArgb("#D56E75");
+    public Color AmountColor { get; set; } = Palette.Text;
+    public Color TypeColor { get; set; } = Palette.Expense;
+    public string IconSource { get; set; } = CategoryIcons.Fallback;
 }

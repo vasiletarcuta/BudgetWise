@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="BudgetWise.Views.SimulatorPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="What-if simulator"
+    BackgroundColor="{StaticResource AppBackground}"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False">
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout Padding="20,26,20,30" Spacing="20"
+                             MaximumWidthRequest="540" HorizontalOptions="Fill">
+            <Grid ColumnDefinitions="46,*,Auto" ColumnSpacing="14">
+                <Border BackgroundColor="{StaticResource AppPrimary}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
+                        StrokeShape="Rectangle" WidthRequest="46" HeightRequest="46">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackClicked" />
+                    </Border.GestureRecognizers>
+                    <Path Data="M19,12 L5,12 M5,12 L12,5 M5,12 L12,19"
+                          Stroke="{StaticResource AppOnPrimaryBrush}" StrokeThickness="2.5"
+                          StrokeLineCap="Round" StrokeLineJoin="Round"
+                          WidthRequest="20" HeightRequest="20"
+                          HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                    <Label Text="WHAT-IF SIMULATOR" FontSize="11" FontAttributes="Bold"
+                           CharacterSpacing="1.5" TextColor="{StaticResource AppPrimaryText}" />
+                    <Label Text="Plan your savings" FontSize="22" FontAttributes="Bold"
+                           TextColor="{StaticResource AppText}" />
+                </VerticalStackLayout>
+                <Image Grid.Column="2" Source="cat_income.png" WidthRequest="30" HeightRequest="30"
+                       VerticalOptions="Center" SemanticProperties.Description="Growth chart" />
+            </Grid>
+
+            <Label x:Name="EmptyLabel" IsVisible="False" FontSize="14" TextColor="{StaticResource AppMuted}"
+                   HorizontalTextAlignment="Center"
+                   Text="Add some transactions first (or load the demo data on the Home page) so the simulator has your habits to work with." />
+
+            <VerticalStackLayout x:Name="ScenarioContent" Spacing="20">
+                <Border BackgroundColor="{StaticResource AppCard}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
+                        StrokeShape="Rectangle" Padding="18">
+                    <VerticalStackLayout Spacing="14">
+                        <VerticalStackLayout Spacing="3">
+                            <Label Text="YOUR AVERAGE MONTH" FontSize="15" FontAttributes="Bold"
+                                   CharacterSpacing="1" TextColor="{StaticResource AppText}" />
+                            <Label x:Name="BasisLabel" FontSize="12" TextColor="{StaticResource AppMuted}" />
+                        </VerticalStackLayout>
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="INCOME" FontSize="10" FontAttributes="Bold" CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
+                                <Label x:Name="AvgIncomeLabel" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource AppIncomeText}"
+                                       MaxLines="1" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="EXPENSES" FontSize="10" FontAttributes="Bold" CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
+                                <Label x:Name="AvgExpensesLabel" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource AppExpenseText}"
+                                       MaxLines="1" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="2" Spacing="5">
+                                <Label Text="SAVED" FontSize="10" FontAttributes="Bold" CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
+                                <Label x:Name="AvgSavedLabel" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource AppText}"
+                                       MaxLines="1" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
+                        StrokeShape="Rectangle" Padding="18">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="YOUR SCENARIO" FontSize="15" FontAttributes="Bold"
+                               CharacterSpacing="1" TextColor="{StaticResource AppText}" />
+
+                        <Label Text="CUT SPENDING IN" FontSize="10" FontAttributes="Bold"
+                               CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
+                        <Border BackgroundColor="{StaticResource AppCard}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="2"
+                                StrokeShape="Rectangle" Padding="8,0">
+                            <Picker x:Name="CategoryPicker" FontSize="15" TextColor="{StaticResource AppText}"
+                                    TitleColor="{StaticResource AppMuted}" Title="Choose a category"
+                                    SelectedIndexChanged="OnCategoryChanged" />
+                        </Border>
+
+                        <Label x:Name="CutLabel" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource AppPrimaryText}" />
+                        <Slider x:Name="CutSlider" Minimum="0" Maximum="50" Value="20"
+                                MinimumTrackColor="{StaticResource AppPrimaryText}" MaximumTrackColor="{StaticResource AppTrack}" ThumbColor="{StaticResource AppText}"
+                                ValueChanged="OnValueChanged" />
+
+                        <Label x:Name="ExtraLabel" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource AppPrimaryText}" />
+                        <Slider x:Name="ExtraSlider" Minimum="0" Maximum="2000" Value="300"
+                                MinimumTrackColor="{StaticResource AppPrimaryText}" MaximumTrackColor="{StaticResource AppTrack}" ThumbColor="{StaticResource AppText}"
+                                ValueChanged="OnValueChanged" />
+
+                        <BoxView HeightRequest="2" BackgroundColor="{StaticResource AppBorder}" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Label x:Name="MonthsLabel" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource AppPrimaryText}"
+                                   VerticalOptions="Center" />
+                            <Stepper x:Name="MonthsStepper" Grid.Column="1" Minimum="1" Maximum="36"
+                                     Increment="1" Value="12" ValueChanged="OnValueChanged" />
+                        </Grid>
+                        <Button Text="RESET" FontSize="13" FontAttributes="Bold" BackgroundColor="{StaticResource AppCard}"
+                                TextColor="{StaticResource AppPrimaryText}" BorderColor="{StaticResource AppBorder}" BorderWidth="3" CornerRadius="0"
+                                HeightRequest="44" Clicked="OnResetClicked" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
+                        StrokeShape="Rectangle" Padding="18">
+                    <VerticalStackLayout Spacing="14">
+                        <VerticalStackLayout Spacing="3">
+                            <Label Text="FUTURE BALANCE" FontSize="17" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
+                            <Label x:Name="HorizonLabel" FontSize="12" TextColor="{StaticResource AppMuted}" />
+                        </VerticalStackLayout>
+                        <GraphicsView x:Name="ProjectionChart" HeightRequest="240" HorizontalOptions="Fill" />
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                            <HorizontalStackLayout Spacing="7">
+                                <BoxView x:Name="LegendBaseline" WidthRequest="11" HeightRequest="11" VerticalOptions="Center" />
+                                <Label Text="If nothing changes" TextColor="{StaticResource AppMuted}" FontSize="12" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="7">
+                                <BoxView x:Name="LegendScenario" WidthRequest="11" HeightRequest="11" VerticalOptions="Center" />
+                                <Label Text="Your scenario" TextColor="{StaticResource AppMuted}" FontSize="12" />
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                        <BoxView HeightRequest="2" BackgroundColor="{StaticResource AppBorder}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="IF NOTHING CHANGES" FontSize="10" FontAttributes="Bold" CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
+                                <Label x:Name="BaselineResultLabel" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource AppText}"
+                                       MaxLines="1" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="WITH YOUR SCENARIO" FontSize="10" FontAttributes="Bold" CharacterSpacing="1" TextColor="{StaticResource AppMuted}" />
+                                <Label x:Name="ScenarioResultLabel" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource AppPrimaryText}"
+                                       MaxLines="1" LineBreakMode="TailTruncation" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Label x:Name="DifferenceLabel" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource AppIncomeText}" />
+                        <Label x:Name="MonthlyLabel" FontSize="12" TextColor="{StaticResource AppMuted}" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

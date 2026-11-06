@@ -25,7 +25,7 @@ public partial class CurrencyConverterPage : ContentPage
         ToPicker.SelectedItem = "EUR";
     }
 
-    private async void OnConvertClicked(object sender, EventArgs e)
+    private async void OnConvertClicked(object? sender, EventArgs e)
     {
         if (_converting)
             return;
@@ -97,7 +97,7 @@ public partial class CurrencyConverterPage : ContentPage
         }
     }
 
-    private void OnSwapClicked(object sender, TappedEventArgs e)
+    private void OnSwapClicked(object? sender, TappedEventArgs e)
     {
         object? previousFrom = FromPicker.SelectedItem;
         FromPicker.SelectedItem = ToPicker.SelectedItem;
@@ -105,12 +105,12 @@ public partial class CurrencyConverterPage : ContentPage
         ClearResult();
     }
 
-    private void OnAmountChanged(object sender, TextChangedEventArgs e)
+    private void OnAmountChanged(object? sender, TextChangedEventArgs e)
     {
         ClearResult();
     }
 
-    private void OnCurrencyChanged(object sender, EventArgs e)
+    private void OnCurrencyChanged(object? sender, EventArgs e)
     {
         ClearResult();
     }
@@ -126,7 +126,7 @@ public partial class CurrencyConverterPage : ContentPage
         StatusLabel.Text = "Frankfurter publishes daily reference rates.";
     }
 
-    private async void OnBackClicked(object sender, TappedEventArgs e)
+    private async void OnBackClicked(object? sender, TappedEventArgs e)
     {
         await Shell.Current.GoToAsync("..");
     }

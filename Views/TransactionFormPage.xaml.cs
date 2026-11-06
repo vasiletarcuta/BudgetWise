@@ -81,7 +81,7 @@ public partial class TransactionFormPage : ContentPage, IQueryAttributable
         }
     }
 
-    private void OnTypeChanged(object sender, EventArgs e)
+    private void OnTypeChanged(object? sender, EventArgs e)
     {
         RefreshCategories();
     }
@@ -101,7 +101,7 @@ public partial class TransactionFormPage : ContentPage, IQueryAttributable
         CategoryPicker.SelectedIndex = filtered.Count > 0 ? 0 : -1;
     }
 
-    private async void OnSaveClicked(object sender, EventArgs e)
+    private async void OnSaveClicked(object? sender, EventArgs e)
     {
         if (_saving)
             return;
@@ -164,7 +164,7 @@ public partial class TransactionFormPage : ContentPage, IQueryAttributable
         }
     }
 
-    private async void OnCancelClicked(object sender, TappedEventArgs e)
+    private async void OnCancelClicked(object? sender, TappedEventArgs e)
     {
         await Shell.Current.GoToAsync("..");
     }

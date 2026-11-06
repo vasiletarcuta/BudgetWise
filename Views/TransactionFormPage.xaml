@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Shell.NavBarIsVisible="False"
     Shell.TabBarIsVisible="False"
-    BackgroundColor="#101713">
+    BackgroundColor="{StaticResource AppBackground}">
 
     <Grid RowDefinitions="*,Auto">
         <ScrollView Grid.Row="0">
@@ -16,13 +16,13 @@
                 HorizontalOptions="Fill">
 
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
-                    <Border BackgroundColor="#C9F27A" Stroke="#050806" StrokeThickness="3"
+                    <Border BackgroundColor="{StaticResource AppPrimary}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                             StrokeShape="Rectangle" WidthRequest="46" HeightRequest="46">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnCancelClicked" />
                         </Border.GestureRecognizers>
                         <Path Data="M19,12 L5,12 M5,12 L12,5 M5,12 L12,19"
-                              Stroke="#101713" StrokeThickness="2.5"
+                              Stroke="{StaticResource AppOnPrimaryBrush}" StrokeThickness="2.5"
                               StrokeLineCap="Round" StrokeLineJoin="Round"
                               WidthRequest="20" HeightRequest="20"
                               HorizontalOptions="Center" VerticalOptions="Center" />
@@ -33,36 +33,36 @@
                             Text="New transaction"
                             FontSize="27"
                             FontAttributes="Bold"
-                            TextColor="#F2F4EC" />
+                            TextColor="{StaticResource AppText}" />
                         <Label
                             Text="Keep your finances organized"
                             FontSize="13"
-                            TextColor="#A7B4AA" />
+                            TextColor="{StaticResource AppMuted}" />
                     </VerticalStackLayout>
                 </Grid>
 
                 <Border
-                    BackgroundColor="#18251F"
-                    Stroke="#050806"
+                    BackgroundColor="{StaticResource AppCardAlt}"
+                    Stroke="{StaticResource AppBorderBrush}"
                     StrokeThickness="3"
                     StrokeShape="Rectangle"
                     Padding="20">
                     <VerticalStackLayout Spacing="18">
                         <VerticalStackLayout Spacing="7">
-                            <Label Text="TRANSACTION TYPE" FontAttributes="Bold" TextColor="#F2F4EC" />
+                            <Label Text="TRANSACTION TYPE" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
                             <Picker
                                 x:Name="TypePicker"
                                 Title="Choose type"
-                                TextColor="#F2F4EC"
-                                TitleColor="#A7B4AA"
+                                TextColor="{StaticResource AppText}"
+                                TitleColor="{StaticResource AppMuted}"
                                 SelectedIndexChanged="OnTypeChanged" />
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="7">
-                            <Label Text="AMOUNT (RON)" FontAttributes="Bold" TextColor="#F2F4EC" />
+                            <Label Text="AMOUNT (RON)" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
                             <Border
-                                BackgroundColor="#101713"
-                                Stroke="#050806"
+                                BackgroundColor="{StaticResource AppBackground}"
+                                Stroke="{StaticResource AppBorderBrush}"
                                 StrokeThickness="2"
                                 StrokeShape="Rectangle"
                                 Padding="12,3">
@@ -71,42 +71,42 @@
                                     Placeholder="0.00"
                                     Keyboard="Numeric"
                                     FontSize="22"
-                                    TextColor="#F2F4EC"
-                                    PlaceholderColor="#718176" />
+                                    TextColor="{StaticResource AppText}"
+                                    PlaceholderColor="{StaticResource AppSubtle}" />
                             </Border>
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="7">
-                            <Label Text="CATEGORY" FontAttributes="Bold" TextColor="#F2F4EC" />
+                            <Label Text="CATEGORY" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
                             <Picker
                                 x:Name="CategoryPicker"
                                 Title="Select category"
                                 ItemDisplayBinding="{Binding Name}"
-                                TextColor="#F2F4EC"
-                                TitleColor="#A7B4AA" />
+                                TextColor="{StaticResource AppText}"
+                                TitleColor="{StaticResource AppMuted}" />
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="7">
-                            <Label Text="DATE" FontAttributes="Bold" TextColor="#F2F4EC" />
+                            <Label Text="DATE" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
                             <DatePicker
                                 x:Name="TransactionDatePicker"
                                 Format="dd MMM yyyy"
-                                TextColor="#F2F4EC" />
+                                TextColor="{StaticResource AppText}" />
                         </VerticalStackLayout>
 
                         <VerticalStackLayout Spacing="7">
-                            <Label Text="DESCRIPTION" FontAttributes="Bold" TextColor="#F2F4EC" />
+                            <Label Text="DESCRIPTION" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
                             <Border
-                                BackgroundColor="#101713"
-                                Stroke="#050806"
+                                BackgroundColor="{StaticResource AppBackground}"
+                                Stroke="{StaticResource AppBorderBrush}"
                                 StrokeThickness="2"
                                 StrokeShape="Rectangle"
                                 Padding="12">
                                 <Editor
                                     x:Name="DescriptionEditor"
                                     Placeholder="What was this transaction for?"
-                                    PlaceholderColor="#718176"
-                                    TextColor="#F2F4EC"
+                                    PlaceholderColor="{StaticResource AppSubtle}"
+                                    TextColor="{StaticResource AppText}"
                                     AutoSize="TextChanges"
                                     MinimumHeightRequest="80" />
                             </Border>
@@ -118,16 +118,16 @@
 
         <Border
             Grid.Row="1"
-            BackgroundColor="#101713"
-            Stroke="#050806"
+            BackgroundColor="{StaticResource AppBackground}"
+            Stroke="{StaticResource AppBorderBrush}"
             StrokeThickness="3"
             Padding="20,12,20,20">
             <Button
                 x:Name="SaveButton"
                 Text="Save transaction"
-                BackgroundColor="#C9F27A"
-                TextColor="#101713"
-                BorderColor="#050806"
+                BackgroundColor="{StaticResource AppPrimary}"
+                TextColor="{StaticResource AppOnPrimary}"
+                BorderColor="{StaticResource AppBorder}"
                 BorderWidth="3"
                 FontAttributes="Bold"
                 FontSize="15"

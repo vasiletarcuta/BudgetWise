@@ -64,6 +64,87 @@ public class DatabaseService
         }
     }
 
+    // Fills the database with six months of sample data so every screen has something to show.
+    public async Task SeedDemoDataAsync()
+    {
+        await InitializeAsync();
+
+        var categories = await _db.Table<Category>().ToListAsync();
+        int IdOf(string name) => categories.First(category => category.Name == name).Id;
+
+        var random = new Random(42);
+        DateTime today = DateTime.Today;
+        DateTime thisMonth = new(today.Year, today.Month, 1);
+        var transactions = new List<Transaction>();
+
+        void Add(DateTime date, string type, string category, int ron, string description)
+        {
+            long minor = ron * 100L;
+            transactions.Add(new Transaction
+            {
+                Date = date,
+                Type = type,
+                CategoryId = IdOf(category),
+                AmountMinor = minor,
+                AmountRonMinor = minor,
+                Currency = "RON",
+                Description = description
+            });
+        }
+
+        string Pick(params string[] options) => options[random.Next(options.Length)];
+
+        for (int monthsAgo = 5; monthsAgo >= 0; monthsAgo--)
+        {
+            DateTime start = thisMonth.AddMonths(-monthsAgo);
+            int lastDay = monthsAgo == 0 ? today.Day : DateTime.DaysInMonth(start.Year, start.Month);
+
+            Add(start, "Income", "Salary", 5200, "Monthly salary");
+            if (lastDay >= 15)
+                Add(start.AddDays(14), "Income", "Freelance", random.Next(6, 15) * 100, "Freelance project");
+            if (lastDay >= 5)
+                Add(start.AddDays(4), "Expense", "Bills", random.Next(240, 320), Pick("Rent share", "Electricity", "Internet and phone"));
+            if (lastDay >= 12)
+                Add(start.AddDays(11), "Expense", "Bills", random.Next(90, 180), Pick("Water and gas", "Insurance"));
+
+            for (int day = 1; day <= lastDay; day++)
+            {
+                DateTime date = start.AddDays(day - 1);
+
+                if (random.NextDouble() < 0.70)
+                    Add(date, "Expense", "Food", random.Next(15, 61), Pick("Groceries", "Lunch", "Coffee and snack", "Restaurant"));
+                if (random.NextDouble() < 0.30)
+                    Add(date, "Expense", "Transport", random.Next(8, 41), Pick("Bus ticket", "Taxi", "Fuel"));
+                if (random.NextDouble() < 0.12)
+                    Add(date, "Expense", "Shopping", random.Next(40, 251), Pick("Clothes", "Electronics", "Home items"));
+                if (random.NextDouble() < 0.10)
+                    Add(date, "Expense", "Entertainment", random.Next(30, 121), Pick("Cinema", "Concert", "Streaming"));
+                if (random.NextDouble() < 0.06)
+                    Add(date, "Expense", "Other", random.Next(10, 80), "Miscellaneous");
+            }
+        }
+
+        await _db.InsertAllAsync(transactions);
+
+        var existing = await GetBudgetsAsync(today.Month, today.Year);
+        if (existing.Count == 0)
+        {
+            var budgets = new (string Category, int Ron)[]
+            {
+                ("Food", 1200), ("Transport", 400), ("Shopping", 600),
+                ("Entertainment", 300), ("Bills", 800)
+            };
+
+            await _db.InsertAllAsync(budgets.Select(budget => new Budget
+            {
+                CategoryId = IdOf(budget.Category),
+                LimitMinor = budget.Ron * 100L,
+                Month = today.Month,
+                Year = today.Year
+            }));
+        }
+    }
+
     public async Task<List<Transaction>> GetTransactionsAsync()
     {
         await InitializeAsync();

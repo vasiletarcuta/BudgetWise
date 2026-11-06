@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:BudgetWise.Controls"
     Title="Budgets"
-    BackgroundColor="#101713"
+    BackgroundColor="{StaticResource AppBackground}"
     Shell.NavBarIsVisible="False"
     Shell.TabBarIsVisible="False">
 
@@ -13,90 +13,97 @@
         <VerticalStackLayout Grid.Row="0" Padding="20,24,20,16" Spacing="16">
             <VerticalStackLayout Spacing="4">
                 <Label Text="PLAN AHEAD" FontSize="11" FontAttributes="Bold"
-                       CharacterSpacing="2" TextColor="#C9F27A" />
-                <Label Text="MY BUDGETS" FontSize="29" FontAttributes="Bold" TextColor="#F2F4EC" />
-                <Label Text="Stay in control of your spending" FontSize="13" TextColor="#A7B4AA" />
+                       CharacterSpacing="2" TextColor="{StaticResource AppPrimaryText}" />
+                <Label Text="MY BUDGETS" FontSize="29" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
+                <Label Text="Stay in control of your spending" FontSize="13" TextColor="{StaticResource AppMuted}" />
             </VerticalStackLayout>
 
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                <Border BackgroundColor="#18251F" Stroke="#050806" StrokeThickness="3"
+                <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                         StrokeShape="Rectangle" Padding="8,2">
-                    <DatePicker x:Name="PeriodPicker" Format="MMMM yyyy" TextColor="#F2F4EC"
+                    <DatePicker x:Name="PeriodPicker" Format="MMMM yyyy" TextColor="{StaticResource AppText}"
                                 DateSelected="OnPeriodChanged" />
                 </Border>
-                <Button Grid.Column="1" Text="+ NEW" BackgroundColor="#C9F27A"
-                        TextColor="#101713" BorderColor="#050806" BorderWidth="3"
+                <Button Grid.Column="1" Text="+ NEW" BackgroundColor="{StaticResource AppPrimary}"
+                        TextColor="{StaticResource AppOnPrimary}" BorderColor="{StaticResource AppBorder}" BorderWidth="3"
                         CornerRadius="0" Padding="18,10" Clicked="OnCreateBudgetClicked" />
             </Grid>
 
-            <Border BackgroundColor="#20352C" Stroke="#050806" StrokeThickness="3"
+            <Border BackgroundColor="{StaticResource AppCard}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                     StrokeShape="Rectangle" Padding="18">
                 <VerticalStackLayout Spacing="13">
-                    <Label Text="MONTHLY OVERVIEW" FontSize="14" FontAttributes="Bold" TextColor="#C9F27A" />
+                    <Label Text="MONTHLY OVERVIEW" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource AppPrimaryText}" />
                     <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                         <VerticalStackLayout Spacing="5">
-                            <Label Text="TOTAL BUDGET" FontSize="10" FontAttributes="Bold" TextColor="#A7B4AA" />
+                            <Label Text="TOTAL BUDGET" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource AppMuted}" />
                             <Label x:Name="TotalBudgetLabel" Text="0,00 RON" FontSize="18"
-                                   FontAttributes="Bold" TextColor="#F2F4EC" />
+                                   FontAttributes="Bold" TextColor="{StaticResource AppText}" />
                         </VerticalStackLayout>
                         <VerticalStackLayout Grid.Column="1" Spacing="5">
-                            <Label Text="SPENT" FontSize="10" FontAttributes="Bold" TextColor="#A7B4AA" />
+                            <Label Text="SPENT" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource AppMuted}" />
                             <Label x:Name="TotalSpentLabel" Text="0,00 RON" FontSize="18"
-                                   FontAttributes="Bold" TextColor="#F08B8F" />
+                                   FontAttributes="Bold" TextColor="{StaticResource AppExpenseText}" />
                         </VerticalStackLayout>
                     </Grid>
-                    <ProgressBar x:Name="OverallProgress" Progress="0" ProgressColor="#C9F27A"
-                                 BackgroundColor="#34443A" HeightRequest="8" />
+                    <ProgressBar x:Name="OverallProgress" Progress="0" ProgressColor="{StaticResource AppPrimaryText}"
+                                 BackgroundColor="{StaticResource AppTrack}" HeightRequest="8" />
                     <Label x:Name="RemainingLabel" Text="No budgets configured for this month"
-                           FontSize="12" TextColor="#A7B4AA" />
+                           FontSize="12" TextColor="{StaticResource AppMuted}" />
                 </VerticalStackLayout>
             </Border>
 
             <Grid ColumnDefinitions="*,Auto">
-                <Label Text="CATEGORY BUDGETS" FontSize="17" FontAttributes="Bold" TextColor="#F2F4EC" />
+                <Label Text="CATEGORY BUDGETS" FontSize="17" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
                 <Label x:Name="BudgetCountLabel" Grid.Column="1" Text="0 BUDGETS"
-                       FontSize="11" FontAttributes="Bold" TextColor="#A7B4AA" VerticalOptions="Center" />
+                       FontSize="11" FontAttributes="Bold" TextColor="{StaticResource AppMuted}" VerticalOptions="Center" />
             </Grid>
         </VerticalStackLayout>
 
         <CollectionView Grid.Row="1" Margin="20,0,20,0" ItemsSource="{Binding Budgets}"
                         SelectionMode="None" VerticalScrollBarVisibility="Never">
             <CollectionView.EmptyView>
-                <VerticalStackLayout Padding="20,50" Spacing="10">
+                <VerticalStackLayout Padding="20,50" Spacing="10" HorizontalOptions="Center">
+                    <Image Source="empty_wallet.png" WidthRequest="96" HeightRequest="96"
+                           SemanticProperties.Description="Empty wallet" />
                     <Label Text="NO BUDGETS YET" FontSize="19" FontAttributes="Bold"
-                           TextColor="#F2F4EC" HorizontalTextAlignment="Center" />
+                           TextColor="{StaticResource AppText}" HorizontalTextAlignment="Center" />
                     <Label Text="Create a budget to start tracking your expenses."
-                           FontSize="13" TextColor="#A7B4AA" HorizontalTextAlignment="Center" />
+                           FontSize="13" TextColor="{StaticResource AppMuted}" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border BackgroundColor="#18251F" Stroke="#050806" StrokeThickness="3"
+                    <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                             StrokeShape="Rectangle" Padding="17" Margin="0,0,0,12">
                         <VerticalStackLayout Spacing="13">
-                            <Grid ColumnDefinitions="*,Auto">
-                                <Label Text="{Binding CategoryName}" FontSize="17" FontAttributes="Bold"
-                                       TextColor="#F2F4EC" />
-                                <Label Grid.Column="1" Text="{Binding PercentageText}" FontSize="13"
+                            <Grid ColumnDefinitions="36,*,Auto" ColumnSpacing="12">
+                                <Border BackgroundColor="{StaticResource AppPrimary}" Stroke="{StaticResource AppBorderBrush}"
+                                        StrokeThickness="2" StrokeShape="Rectangle"
+                                        WidthRequest="36" HeightRequest="36" Padding="7">
+                                    <Image Source="{Binding IconSource}" />
+                                </Border>
+                                <Label Grid.Column="1" Text="{Binding CategoryName}" FontSize="17"
+                                       FontAttributes="Bold" TextColor="{StaticResource AppText}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="{Binding PercentageText}" FontSize="13"
                                        FontAttributes="Bold" TextColor="{Binding StatusColor}" />
                             </Grid>
-                            <Label Text="{Binding SpentText}" FontSize="14" TextColor="#A7B4AA" />
+                            <Label Text="{Binding SpentText}" FontSize="14" TextColor="{StaticResource AppMuted}" />
                             <ProgressBar Progress="{Binding Progress}" ProgressColor="{Binding StatusColor}"
-                                         BackgroundColor="#34443A" HeightRequest="8" />
+                                         BackgroundColor="{StaticResource AppTrack}" HeightRequest="8" />
                             <Label Text="{Binding RemainingText}" FontSize="12"
                                    TextColor="{Binding StatusColor}" />
-                            <BoxView HeightRequest="2" BackgroundColor="#050806" />
+                            <BoxView HeightRequest="2" BackgroundColor="{StaticResource AppBorder}" />
                             <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
                                 <Label Text="{Binding StatusText}" FontSize="11" FontAttributes="Bold"
-                                       TextColor="#A7B4AA" VerticalOptions="Center" />
+                                       TextColor="{StaticResource AppMuted}" VerticalOptions="Center" />
                                 <Button Grid.Column="1" Text="EDIT" FontSize="12" FontAttributes="Bold"
-                                        Padding="14,7" CornerRadius="0" BorderColor="#050806" BorderWidth="2"
-                                        BackgroundColor="#7CF7E8" TextColor="#101713"
+                                        Padding="14,7" CornerRadius="0" BorderColor="{StaticResource AppBorder}" BorderWidth="2"
+                                        BackgroundColor="{StaticResource AppButter}" TextColor="{StaticResource AppOnPrimary}"
                                         CommandParameter="{Binding Id}" Clicked="OnEditBudgetClicked" />
                                 <Button Grid.Column="2" Text="DELETE" FontSize="12" FontAttributes="Bold"
-                                        Padding="14,7" CornerRadius="0" BorderColor="#050806" BorderWidth="2"
-                                        BackgroundColor="#D56E75" TextColor="#101713"
+                                        Padding="14,7" CornerRadius="0" BorderColor="{StaticResource AppBorder}" BorderWidth="2"
+                                        BackgroundColor="{StaticResource AppExpense}" TextColor="{StaticResource AppOnPrimary}"
                                         CommandParameter="{Binding Id}" Clicked="OnDeleteBudgetClicked" />
                             </Grid>
                         </VerticalStackLayout>

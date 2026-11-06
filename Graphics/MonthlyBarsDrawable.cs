@@ -1,3 +1,4 @@
+using BudgetWise.Services;
 using System.Globalization;
 using Microsoft.Maui.Graphics;
 
@@ -7,10 +8,10 @@ public sealed record MonthlyChartPoint(string Month, long IncomeMinor, long Expe
 
 public sealed class MonthlyBarsDrawable : IDrawable
 {
-    private static readonly Color GridColor = Color.FromArgb("#304037");
-    private static readonly Color MutedText = Color.FromArgb("#A7B4AA");
-    private static readonly Color IncomeColor = Color.FromArgb("#7CF7E8");
-    private static readonly Color ExpenseColor = Color.FromArgb("#D56E75");
+    private static readonly Color GridColor = Palette.Grid;
+    private static readonly Color MutedText = Palette.Muted;
+    private static readonly Color IncomeColor = Palette.Income;
+    private static readonly Color ExpenseColor = Palette.Expense;
 
     public IReadOnlyList<MonthlyChartPoint> Points { get; set; } = Array.Empty<MonthlyChartPoint>();
 

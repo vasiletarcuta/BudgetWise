@@ -19,5 +19,13 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(
             nameof(CurrencyConverterPage),
             typeof(CurrencyConverterPage));
+
+        Routing.RegisterRoute(
+            nameof(SimulatorPage),
+            typeof(SimulatorPage));
+
+        Routing.RegisterRoute(
+            nameof(WrappedPage),
+            typeof(WrappedPage));
     }
 }

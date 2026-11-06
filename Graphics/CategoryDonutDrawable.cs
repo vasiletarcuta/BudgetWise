@@ -1,3 +1,4 @@
+using BudgetWise.Services;
 using System.Globalization;
 using Microsoft.Maui.Graphics;
 
@@ -7,11 +8,13 @@ public sealed record CategorySlice(string Name, long AmountMinor, Color Color);
 
 public sealed class CategoryDonutDrawable : IDrawable
 {
-    private static readonly Color ChartBackground = Color.FromArgb("#18251F");
-    private static readonly Color MutedText = Color.FromArgb("#A7B4AA");
-    private static readonly Color MainText = Color.FromArgb("#F2F4EC");
+    private static readonly Color ChartBackground = Palette.CardAlt;
+    private static readonly Color MutedText = Palette.Muted;
+    private static readonly Color MainText = Palette.Text;
 
     public IReadOnlyList<CategorySlice> Slices { get; set; } = Array.Empty<CategorySlice>();
+
+    public string CenterCaption { get; set; } = "TOTAL EXPENSES";
 
     public void Draw(ICanvas canvas, RectF rect)
     {
@@ -23,7 +26,7 @@ public sealed class CategoryDonutDrawable : IDrawable
         float y = rect.Center.Y - size / 2;
         long total = Slices.Where(slice => slice.AmountMinor > 0).Sum(slice => slice.AmountMinor);
 
-        canvas.FillColor = Color.FromArgb("#29372F");
+        canvas.FillColor = Palette.Grid;
         canvas.FillEllipse(x, y, size, size);
 
         float centerX = rect.Center.X;
@@ -85,7 +88,7 @@ public sealed class CategoryDonutDrawable : IDrawable
         canvas.Font = Microsoft.Maui.Graphics.Font.Default;
         canvas.FontColor = MutedText;
         canvas.FontSize = 11;
-        canvas.DrawString("TOTAL CHELTUIT", innerX, rect.Center.Y - 19, innerSize, 18,
+        canvas.DrawString(CenterCaption, innerX, rect.Center.Y - 19, innerSize, 18,
             HorizontalAlignment.Center, VerticalAlignment.Center);
 
         canvas.Font = Microsoft.Maui.Graphics.Font.DefaultBold;

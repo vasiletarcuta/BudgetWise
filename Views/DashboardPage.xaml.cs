@@ -9,6 +9,7 @@ public partial class DashboardPage : ContentPage
     private readonly DatabaseService _database;
     private readonly CultureInfo _culture = CultureInfo.GetCultureInfo("ro-RO");
     private bool _loading;
+    private bool _hideAmounts;
 
     public ObservableCollection<DashboardRecentItem> RecentTransactions { get; } = new();
 
@@ -18,6 +19,19 @@ public partial class DashboardPage : ContentPage
 
         _database = database;
         BindingContext = this;
+
+        _hideAmounts = Preferences.Default.Get("hide_amounts", false);
+        HideAmountsSwitch.IsToggled = _hideAmounts;
+    }
+
+    private async void OnHideAmountsToggled(object? sender, ToggledEventArgs e)
+    {
+        if (_hideAmounts == e.Value)
+            return;
+
+        _hideAmounts = e.Value;
+        Preferences.Default.Set("hide_amounts", _hideAmounts);
+        await LoadDashboardAsync();
     }
 
     protected override async void OnAppearing()
@@ -46,8 +60,8 @@ public partial class DashboardPage : ContentPage
                 .Sum(transaction => transaction.AmountRonMinor);
             long balance = totalIncome - totalExpenses;
 
-            BalanceLabel.Text = FormatMoney(balance);
-            BalanceLabel.TextColor = Color.FromArgb(balance < 0 ? "#F08B8F" : "#F2F4EC");
+            BalanceLabel.Text = Visible(FormatMoney(balance));
+            BalanceLabel.TextColor = balance < 0 ? Palette.ExpenseText : Palette.Text;
 
             var monthlyTransactions = transactions
                 .Where(transaction =>
@@ -62,19 +76,19 @@ public partial class DashboardPage : ContentPage
                 .Where(transaction => transaction.Type == "Expense")
                 .Sum(transaction => transaction.AmountRonMinor);
 
-            IncomeLabel.Text = "+" + FormatMoney(monthlyIncome);
-            ExpensesLabel.Text = "-" + FormatMoney(monthlyExpenses);
+            IncomeLabel.Text = Visible("+" + FormatMoney(monthlyIncome));
+            ExpensesLabel.Text = Visible("-" + FormatMoney(monthlyExpenses));
 
             if (monthlyIncome > 0)
             {
                 decimal savingsRate = (monthlyIncome - monthlyExpenses) * 100m / monthlyIncome;
                 SavingsRateLabel.Text = savingsRate.ToString("0.#", _culture) + "%";
-                SavingsRateLabel.TextColor = Color.FromArgb(savingsRate >= 0 ? "#7CF7E8" : "#F08B8F");
+                SavingsRateLabel.TextColor = savingsRate >= 0 ? Palette.IncomeText : Palette.ExpenseText;
             }
             else
             {
                 SavingsRateLabel.Text = "—";
-                SavingsRateLabel.TextColor = Color.FromArgb("#7CF7E8");
+                SavingsRateLabel.TextColor = Palette.IncomeText;
             }
 
             var budgets = await _database.GetBudgetsAsync(now.Month, now.Year);
@@ -107,6 +121,7 @@ public partial class DashboardPage : ContentPage
             }
 
             var categoryLookup = categories.ToDictionary(category => category.Id, category => category.Name);
+            var iconLookup = categories.ToDictionary(category => category.Id, category => category.Icon);
             RecentTransactions.Clear();
 
             foreach (var transaction in transactions
@@ -124,12 +139,14 @@ public partial class DashboardPage : ContentPage
                         : transaction.Description,
                     Subtitle = $"{categoryName} · {transaction.Date.ToString("dd MMM yyyy", _culture)}",
                     AmountText = (isIncome ? "+" : "-") + FormatMoney(transaction.AmountRonMinor),
-                    AmountColor = Color.FromArgb(isIncome ? "#7CF7E8" : "#F08B8F"),
-                    TypeColor = Color.FromArgb(isIncome ? "#7CF7E8" : "#D56E75")
+                    AmountColor = isIncome ? Palette.IncomeText : Palette.ExpenseText,
+                    TypeColor = isIncome ? Palette.Income : Palette.Expense,
+                    IconSource = CategoryIcons.For(iconLookup.GetValueOrDefault(transaction.CategoryId))
                 });
             }
 
             NoTransactionsLabel.IsVisible = RecentTransactions.Count == 0;
+            DemoDataButton.IsVisible = RecentTransactions.Count == 0;
         }
         catch (Exception ex)
         {
@@ -141,31 +158,58 @@ public partial class DashboardPage : ContentPage
         }
     }
 
+    private string Visible(string text) => _hideAmounts ? "•••••" : text;
+
     private string FormatMoney(long amountMinor)
     {
         return (amountMinor / 100m).ToString("N2", _culture) + " RON";
     }
 
-    private async void OnSeeAllTapped(object sender, TappedEventArgs e)
+    private async void OnLoadDemoDataClicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            await _database.SeedDemoDataAsync();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Demo data error", ex.Message, "OK");
+            return;
+        }
+
+        await LoadDashboardAsync();
+    }
+
+    private async void OnSeeAllTapped(object? sender, TappedEventArgs e)
     {
         await Shell.Current.GoToAsync("//activity");
     }
 
-    private async void OnAddExpenseClicked(object sender, EventArgs e)
+    private async void OnAddExpenseClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(
             $"{nameof(TransactionFormPage)}?type=Expense");
     }
 
-    private async void OnAddIncomeClicked(object sender, EventArgs e)
+    private async void OnAddIncomeClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(
             $"{nameof(TransactionFormPage)}?type=Income");
     }
 
-    private async void OnOpenConverterTapped(object sender, TappedEventArgs e)
+    private async void OnOpenConverterTapped(object? sender, TappedEventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(CurrencyConverterPage));
+    }
+
+    private async void OnOpenWrappedTapped(object? sender, TappedEventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(WrappedPage));
+    }
+
+    private async void OnOpenSimulatorTapped(object? sender, TappedEventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(SimulatorPage));
     }
 }
 
@@ -174,6 +218,7 @@ public class DashboardRecentItem
     public string Title { get; set; } = string.Empty;
     public string Subtitle { get; set; } = string.Empty;
     public string AmountText { get; set; } = string.Empty;
-    public Color AmountColor { get; set; } = Color.FromArgb("#F2F4EC");
-    public Color TypeColor { get; set; } = Color.FromArgb("#D56E75");
+    public Color AmountColor { get; set; } = Palette.Text;
+    public Color TypeColor { get; set; } = Palette.Expense;
+    public string IconSource { get; set; } = CategoryIcons.Fallback;
 }

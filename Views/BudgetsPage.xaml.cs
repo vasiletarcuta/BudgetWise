@@ -40,6 +40,7 @@ public partial class BudgetsPage : ContentPage
             var categories = await _database.GetCategoriesAsync();
             var transactions = await _database.GetTransactionsAsync();
             var categoryNames = categories.ToDictionary(category => category.Id, category => category.Name);
+            var categoryIcons = categories.ToDictionary(category => category.Id, category => category.Icon);
             var monthlyExpenses = transactions
                 .Where(transaction =>
                     transaction.Type == "Expense" &&
@@ -66,6 +67,7 @@ public partial class BudgetsPage : ContentPage
                 {
                     Id = budget.Id,
                     CategoryName = categoryNames.GetValueOrDefault(budget.CategoryId, "Other"),
+                    IconSource = CategoryIcons.For(categoryIcons.GetValueOrDefault(budget.CategoryId)),
                     SpentText = $"{FormatMoney(spent)} spent / {FormatMoney(budget.LimitMinor)} limit",
                     RemainingText = exceeded
                         ? $"{FormatMoney(-remaining)} over budget"
@@ -73,7 +75,7 @@ public partial class BudgetsPage : ContentPage
                     PercentageText = usage.ToString("P0", _culture),
                     Progress = Math.Clamp((double)usage, 0.0, 1.0),
                     StatusText = exceeded ? "BUDGET EXCEEDED" : "ON TRACK",
-                    StatusColor = Color.FromArgb(exceeded ? "#F08B8F" : "#C9F27A")
+                    StatusColor = exceeded ? Palette.ExpenseText : Palette.PrimaryText
                 });
             }
 
@@ -88,7 +90,7 @@ public partial class BudgetsPage : ContentPage
                 RemainingLabel.Text = remaining >= 0
                     ? $"{FormatMoney(remaining)} available to spend"
                     : $"{FormatMoney(-remaining)} over budget";
-                OverallProgress.ProgressColor = Color.FromArgb(remaining < 0 ? "#F08B8F" : "#C9F27A");
+                OverallProgress.ProgressColor = remaining < 0 ? Palette.ExpenseText : Palette.PrimaryText;
             }
             else
             {
@@ -111,7 +113,7 @@ public partial class BudgetsPage : ContentPage
         return (minor / 100m).ToString("N2", _culture) + " RON";
     }
 
-    private async void OnPeriodChanged(object sender, DateChangedEventArgs e)
+    private async void OnPeriodChanged(object? sender, DateChangedEventArgs e)
     {
         await LoadBudgetsAsync();
     }
@@ -122,13 +124,13 @@ public partial class BudgetsPage : ContentPage
         return date.ToString("yyyy-MM", CultureInfo.InvariantCulture);
     }
 
-    private async void OnCreateBudgetClicked(object sender, EventArgs e)
+    private async void OnCreateBudgetClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(
             $"{nameof(BudgetFormPage)}?period={SelectedPeriodQuery()}");
     }
 
-    private async void OnEditBudgetClicked(object sender, EventArgs e)
+    private async void OnEditBudgetClicked(object? sender, EventArgs e)
     {
         if (sender is not Button button || !TryGetBudgetId(button, out int id))
             return;
@@ -136,7 +138,7 @@ public partial class BudgetsPage : ContentPage
         await Shell.Current.GoToAsync($"{nameof(BudgetFormPage)}?id={id}");
     }
 
-    private async void OnDeleteBudgetClicked(object sender, EventArgs e)
+    private async void OnDeleteBudgetClicked(object? sender, EventArgs e)
     {
         if (sender is not Button button || !TryGetBudgetId(button, out int id))
             return;
@@ -182,10 +184,11 @@ public class BudgetListItem
 {
     public int Id { get; set; }
     public string CategoryName { get; set; } = string.Empty;
+    public string IconSource { get; set; } = CategoryIcons.Fallback;
     public string SpentText { get; set; } = string.Empty;
     public string RemainingText { get; set; } = string.Empty;
     public string PercentageText { get; set; } = string.Empty;
     public double Progress { get; set; }
     public string StatusText { get; set; } = string.Empty;
-    public Color StatusColor { get; set; } = Color.FromArgb("#C9F27A");
+    public Color StatusColor { get; set; } = Palette.PrimaryText;
 }

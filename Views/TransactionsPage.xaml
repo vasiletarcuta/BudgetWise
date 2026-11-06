@@ -5,37 +5,37 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:BudgetWise.Controls"
     Title="Activity"
-    BackgroundColor="#101713"
+    BackgroundColor="{StaticResource AppBackground}"
     Shell.NavBarIsVisible="False"
     Shell.TabBarIsVisible="False">
 
     <Grid RowDefinitions="Auto,*,Auto">
         <VerticalStackLayout Grid.Row="0" Padding="20,24,20,12" Spacing="16">
             <VerticalStackLayout Spacing="4">
-                <Label Text="ACTIVITY" FontSize="29" FontAttributes="Bold" TextColor="#F2F4EC" />
-                <Label Text="Manage your transactions" FontSize="13" TextColor="#A7B4AA" />
+                <Label Text="ACTIVITY" FontSize="29" FontAttributes="Bold" TextColor="{StaticResource AppText}" />
+                <Label Text="Manage your transactions" FontSize="13" TextColor="{StaticResource AppMuted}" />
             </VerticalStackLayout>
 
             <Grid ColumnDefinitions="*,125" ColumnSpacing="10">
-                <Border BackgroundColor="#18251F" Stroke="#050806" StrokeThickness="3"
+                <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                         StrokeShape="Rectangle" Padding="4,0">
                     <SearchBar x:Name="TransactionSearch" Placeholder="SEARCH..."
-                               TextColor="#F2F4EC" PlaceholderColor="#A7B4AA"
+                               TextColor="{StaticResource AppText}" PlaceholderColor="{StaticResource AppMuted}"
                                BackgroundColor="Transparent" TextChanged="OnSearchTextChanged" />
                 </Border>
-                <Border Grid.Column="1" BackgroundColor="#18251F" Stroke="#050806" StrokeThickness="3"
+                <Border Grid.Column="1" BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                         StrokeShape="Rectangle" Padding="8,0">
                     <Picker x:Name="TypeFilter" Title="TYPE" FontSize="13"
-                            TextColor="#F2F4EC" TitleColor="#A7B4AA"
+                            TextColor="{StaticResource AppText}" TitleColor="{StaticResource AppMuted}"
                             SelectedIndexChanged="OnFilterChanged" />
                 </Border>
             </Grid>
 
             <Grid ColumnDefinitions="*,Auto">
-                <Label x:Name="CountLabel" Text="0 transactions" TextColor="#A7B4AA"
+                <Label x:Name="CountLabel" Text="0 transactions" TextColor="{StaticResource AppMuted}"
                        FontSize="13" VerticalOptions="Center" />
-                <Button Grid.Column="1" Text="+ ADD" BackgroundColor="#C9F27A"
-                        TextColor="#101713" BorderColor="#050806" BorderWidth="3" CornerRadius="0" Padding="18,10"
+                <Button Grid.Column="1" Text="+ ADD" BackgroundColor="{StaticResource AppPrimary}"
+                        TextColor="{StaticResource AppOnPrimary}" BorderColor="{StaticResource AppBorder}" BorderWidth="3" CornerRadius="0" Padding="18,10"
                         Clicked="OnAddTransactionClicked" />
             </Grid>
         </VerticalStackLayout>
@@ -47,45 +47,49 @@
                         VerticalScrollBarVisibility="Never">
             <CollectionView.EmptyView>
                 <VerticalStackLayout Padding="20,60" Spacing="12" HorizontalOptions="Center">
+                    <Image Source="empty_wallet.png" WidthRequest="96" HeightRequest="96"
+                           SemanticProperties.Description="Empty wallet" />
                     <Label Text="NO TRANSACTIONS FOUND" FontSize="19" FontAttributes="Bold"
-                           TextColor="#F2F4EC" HorizontalTextAlignment="Center" />
+                           TextColor="{StaticResource AppText}" HorizontalTextAlignment="Center" />
                     <Label Text="Add a transaction or change your filters." FontSize="13"
-                           TextColor="#A7B4AA" HorizontalTextAlignment="Center" />
+                           TextColor="{StaticResource AppMuted}" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border BackgroundColor="#18251F" Stroke="#050806" StrokeThickness="3"
+                    <Border BackgroundColor="{StaticResource AppCardAlt}" Stroke="{StaticResource AppBorderBrush}" StrokeThickness="3"
                             StrokeShape="Rectangle" Padding="16" Margin="0,0,0,12">
                         <VerticalStackLayout Spacing="14">
                             <Grid ColumnDefinitions="44,*" ColumnSpacing="12">
-                                <Border BackgroundColor="{Binding TypeColor}" Stroke="#050806"
+                                <Border BackgroundColor="{Binding TypeColor}" Stroke="{StaticResource AppBorderBrush}"
                                         StrokeThickness="2" StrokeShape="Rectangle"
-                                        WidthRequest="42" HeightRequest="42"
-                                        HorizontalOptions="Center" VerticalOptions="Center" />
+                                        WidthRequest="42" HeightRequest="42" Padding="9"
+                                        HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Image Source="{Binding IconSource}" />
+                                </Border>
                                 <VerticalStackLayout Grid.Column="1" Spacing="5">
                                     <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="15"
-                                           TextColor="#F2F4EC" MaxLines="1" LineBreakMode="TailTruncation" />
-                                    <Label Text="{Binding Subtitle}" FontSize="12" TextColor="#A7B4AA"
+                                           TextColor="{StaticResource AppText}" MaxLines="1" LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding Subtitle}" FontSize="12" TextColor="{StaticResource AppMuted}"
                                            MaxLines="1" LineBreakMode="TailTruncation" />
                                     <Label Text="{Binding AmountText}" FontAttributes="Bold" FontSize="16"
                                            TextColor="{Binding AmountColor}" />
                                 </VerticalStackLayout>
                             </Grid>
 
-                            <BoxView HeightRequest="2" BackgroundColor="#050806" />
+                            <BoxView HeightRequest="2" BackgroundColor="{StaticResource AppBorder}" />
 
                             <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
-                                <Label Text="{Binding Type}" FontSize="12" TextColor="#A7B4AA"
+                                <Label Text="{Binding Type}" FontSize="12" TextColor="{StaticResource AppMuted}"
                                        VerticalOptions="Center" />
                                 <Button Grid.Column="1" Text="EDIT" FontSize="12" FontAttributes="Bold" Padding="14,7"
-                                        CornerRadius="0" BorderColor="#050806" BorderWidth="2"
-                                        BackgroundColor="#7CF7E8" TextColor="#101713"
+                                        CornerRadius="0" BorderColor="{StaticResource AppBorder}" BorderWidth="2"
+                                        BackgroundColor="{StaticResource AppButter}" TextColor="{StaticResource AppOnPrimary}"
                                         CommandParameter="{Binding Id}" Clicked="OnEditClicked" />
                                 <Button Grid.Column="2" Text="DELETE" FontSize="12" FontAttributes="Bold" Padding="14,7"
-                                        CornerRadius="0" BorderColor="#050806" BorderWidth="2"
-                                        BackgroundColor="#D56E75" TextColor="#101713"
+                                        CornerRadius="0" BorderColor="{StaticResource AppBorder}" BorderWidth="2"
+                                        BackgroundColor="{StaticResource AppExpense}" TextColor="{StaticResource AppOnPrimary}"
                                         CommandParameter="{Binding Id}" Clicked="OnDeleteClicked" />
                             </Grid>
                         </VerticalStackLayout>
